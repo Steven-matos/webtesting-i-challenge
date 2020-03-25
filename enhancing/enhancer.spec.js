@@ -6,6 +6,7 @@ it("should run test true", function() {
 });
 
 describe("enhacer.js", function() {
+  // Repair test
   describe("repair()", function() {
     it("should return item durability as 100", function() {
       let item = {};
@@ -14,22 +15,27 @@ describe("enhacer.js", function() {
     });
   });
 
+  // Success tests
   describe("success()", function() {
     it("should enhance item if lvl is not 20 succeed", function() {
-      let item = {};
-      item.enhancement = 0;
+      let item = { name: "sword", enhancement: 2, durability: 50 };
       const enhanced = enhancer.succeed(item);
-      expect(enhanced.enhancement).toBe(1);
+      expect(enhanced.enhancement).toBe(3);
     });
     it("should not enhance item if lvl is 20 succeed", function() {
-      let item2 = {};
-      item2.enhancement = 20;
+      let item2 = { name: "sword", enhancement: 20, durability: 50 };
       expect(() => {
         enhancer.succeed(item2);
       }).toThrow();
     });
+    it("should not change durability", function() {
+      let item = { name: "sword", enhancement: 2, durability: 50 };
+      const enhanced = enhancer.succeed(item);
+      expect(enhanced.durability).toBe(50);
+    });
   });
 
+  // Fail Test
   describe("fail()", function() {
     it("If the items enhancement is less than 15, the durability of the item is decreased by 5.", function() {
       let item3 = { name: "sword", enhancement: 10, durability: 50 };
@@ -37,9 +43,9 @@ describe("enhacer.js", function() {
       expect(fails.durability).toBe(45);
     });
     it("If the items enhancement is 15 or more, the durability of the item is decreased by 10", function() {
-        let item4 = { name: "knife", enhancement: 15, durability: 50 };
-        const fails2 = enhancer.fail(item4);
-        expect(fails2.durability).toBe(40);
+      let item4 = { name: "knife", enhancement: 15, durability: 50 };
+      const fails2 = enhancer.fail(item4);
+      expect(fails2.durability).toBe(40);
     });
     it("If the items enhancement is 15 or more, the durability of the item is decreased by 10", function() {
       let item4 = { name: "knife", enhancement: 17, durability: 50 };
